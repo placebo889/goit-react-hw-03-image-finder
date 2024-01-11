@@ -1,52 +1,42 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { SearchBarHead, SearchForm, SearchFormBtn, SearchFormButtonLabel, SearchFormInput } from './Searchbar.styled'
+import React, {Component} from "react";
+import css from './Searchbar.module.css';
 
-class Searchbar extends Component {
- 
-  state = {
-    query: '',
-  };
+export class Searchbar extends Component {
+   state = {
+      query: ''
+   };
 
-  handleChange = event => {     
-    this.setState({ query: event.target.value });    
-  };
 
-  handleSubmit = event => {    
-    event.preventDefault();
-    if (!this.state.query.trim()) { 
-      return
-    }
-    this.props.onSubmit(this.state.query);
-    // this.setState({ query: '' });
-  };
 
-  render() {
-    // const { query } = this.state;
-    
-    return (
-      <SearchBarHead>
-        <SearchForm onSubmit={this.handleSubmit}>
-          <SearchFormBtn type="submit">
-            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
-          </SearchFormBtn>
-
-          <SearchFormInput            
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.query}
-            onChange={this.handleChange}
-          />
-        </SearchForm>
-      </SearchBarHead>
-    );
-  }
-}
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+handleSubmit = e => {
+  e.preventDefault();
+  this.props.onSubmit(this.state.query);
+  this.setState({query: ''})
 };
 
-export default Searchbar;
+handleChange = (e) => {
+  this.setState({query: e.target.value});
+}
+
+render() {
+  return (
+    <header className={css.Searchbar}>
+  <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+    <button type="submit" className={css.SearchFormButton}>
+      <span className={css.SearchFormButtonLabel}>Search</span>
+    </button>
+
+    <input
+      className={css.SearchFormInput}
+      type="text"
+      autoComplete="off"
+      autoFocus
+      placeholder="Search images and photos"
+      value={this.state.query}
+      onChange={this.handleChange}
+    />
+  </form>
+</header>
+  )
+}
+}
